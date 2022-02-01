@@ -28,6 +28,10 @@ public class Link {
   private User user;
 
   public void incrementFollows(){
-    this.follows++;
+    if(this.follows == null){
+      this.follows = 0L;
+    } else {
+      this.follows++;
+    }
   }
 }
