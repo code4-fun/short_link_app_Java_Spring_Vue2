@@ -1,0 +1,128 @@
+databaseChangeLog:
+- changeSet:
+    id: 1
+    author: adm
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: ip_pkey
+            name: ip
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: ip_pkey
+            name: link_hash
+            type: VARCHAR(255)
+        tableName: ip
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: link_pkey
+            name: hash
+            type: VARCHAR(255)
+        - column:
+            name: expiration
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: follows
+            type: BIGINT
+        - column:
+            name: origin_url
+            type: VARCHAR(255)
+        - column:
+            name: user_id
+            type: BIGINT
+        tableName: link
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: usr_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: first_name
+            type: VARCHAR(255)
+        - column:
+            name: last_name
+            type: VARCHAR(255)
+        - column:
+            name: password
+            type: VARCHAR(255)
+        - column:
+            name: role_id
+            type: BIGINT
+        tableName: usr
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: role_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: role
+    - addUniqueConstraint:
+        columnNames: email
+        constraintName: usr_pk
+        tableName: usr
+    - addForeignKeyConstraint:
+        baseColumnNames: role_id
+        baseTableName: usr
+        constraintName: usr_role_id_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: role
+        validate: true
+    - addForeignKeyConstraint:
+        baseColumnNames: link_hash
+        baseTableName: ip
+        constraintName: ip_link_hash_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: hash
+        referencedTableName: link
+        validate: true
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: link
+        constraintName: link_usr_id_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: usr
+        validate: true
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 1
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: hibernate_sequence
+        startValue: 1
