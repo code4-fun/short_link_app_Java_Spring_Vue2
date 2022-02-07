@@ -13,7 +13,7 @@
       </div>
 
       <div>
-        <ul v-if="!user" class="navbar-nav me-auto mb-2 mb-md-0">
+        <ul v-if="!email" class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
             <router-link to="/auth" class="nav-link">Login</router-link>
           </li>
@@ -36,12 +36,13 @@ import {mapGetters} from 'vuex'
 export default {
   name: 'Nav',
   computed:{
-    ...mapGetters(['user'])
+    ...mapGetters(['email'])
   },
   methods:{
     logoutHandler(){
       localStorage.removeItem('token')
-      this.$store.dispatch('user', null)
+      this.$store.dispatch('email', null)
+      this.$store.dispatch('firstName', null)
       this.$router.push('/')
     }
   }

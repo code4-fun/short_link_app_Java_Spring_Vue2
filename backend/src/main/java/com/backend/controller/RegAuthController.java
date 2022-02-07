@@ -42,7 +42,12 @@ public class RegAuthController {
   public AuthResponse auth(@RequestBody AuthRequest request) {
     User user = userService.findByEmailAndPassword(request.getEmail(), request.getPassword());
     String token = jwtUtil.generateToken(user.getEmail());
-    return AuthResponse.builder().token(token).email(user.getFirstName()).build();
+    return AuthResponse
+      .builder()
+      .token(token)
+      .email(user.getEmail())
+      .firstName(user.getFirstName())
+      .build();
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)

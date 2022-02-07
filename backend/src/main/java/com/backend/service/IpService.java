@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class IpService {
   @NonNull private final IpRepository ipRepository;
-
 
   /**
    * Saves to the database Ip object when someone follows the Link.
@@ -62,5 +62,14 @@ public class IpService {
    */
   public Long countUniqueFollowsOfLink(Link link){
     return ipRepository.countByLinkHash(link.getHash());
+  }
+
+  /**
+   * Removes the Ip entities with the given hash.
+   * @param hash hash
+   */
+  @Transactional
+  public void deleteIpByHash(String hash){
+    ipRepository.deleteByHash(hash);
   }
 }

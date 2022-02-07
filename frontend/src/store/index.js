@@ -9,24 +9,39 @@ export default new Vuex.Store({
     storage: window.sessionStorage,
   })],
   state:{
-    user: null,
+    email: null,
+    firstName: null,
     links: []
   },
   mutations:{
-    user (state, user) {
-      state.user = user;
+    email (state, email) {
+      state.email = email;
+    },
+    firstName (state, firstName) {
+      state.firstName = firstName;
     },
     setLinksToState: (state, payload) => {
       const linksMap = [...payload.data.data];
       state.links = Object.values(linksMap).sort((a, b) => b.id - a.id);
+    },
+    updateFollows: (state, payload) => {
+      let links = [...state.links];
+      let index = links.findIndex(item => item.hash === payload.hash);
+      if(index !== -1){
+        links[index].follows = payload.follows;
+        links[index].uniqueFollows = payload.uniqueFollows;
+      }
+      state.links = links;
     }
   },
   actions:{
-    user (context, user) {
-      context.commit('user', user);
+    email (context, email) {
+      context.commit('email', email);
+    },
+    firstName (context, firstName) {
+      context.commit('firstName', firstName);
     },
     getLinksFromApi({commit}){
-      console.log("here1");
       return axios.get('/links', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -39,11 +54,17 @@ export default new Vuex.Store({
         console.log(error);
         return error;
       })
+    },
+    refreshFollows(context, param){
+      context.commit('updateFollows', param);
     }
   },
   getters: {
-    user: (state) =>{
-      return state.user;
+    email: (state) =>{
+      return state.email;
+    },
+    firstName: (state) =>{
+      return state.firstName;
     },
     links: (state) => {
       return state.links;

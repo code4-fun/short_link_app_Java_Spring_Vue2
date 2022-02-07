@@ -8,6 +8,7 @@ import com.backend.entity.User;
 import com.backend.service.IpService;
 import com.backend.service.LinkService;
 import com.backend.service.UserService;
+import com.backend.service.WebSocketService;
 import javax.servlet.http.HttpServletRequest;
 import liquibase.pro.packaged.T;
 import lombok.NonNull;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +37,8 @@ public class MainController {
   @NonNull private final ApiResponseFactory apiResponseFactory;
   @NonNull private final LinkService linkService;
   @NonNull private final IpService ipService;
+  @NonNull private final WebSocketService webSocketService;
+
 
   @PostMapping("/links")
   public ApiResponse createLink(@AuthenticationPrincipal UserDetails principal,
@@ -45,6 +50,7 @@ public class MainController {
   @GetMapping("/links")
   public ApiResponse getAllLinksOfUser(@AuthenticationPrincipal UserDetails principal){
     User user = userService.findByEmail(principal.getUsername());
+    SecurityContext context = SecurityContextHolder.getContext();
     return user != null
       ? apiResponseFactory.success(linkService.getLinkDtosOfUser(user))
       : apiResponseFactory.failure();
@@ -55,6 +61,7 @@ public class MainController {
                                     HttpServletRequest request){
     Link link = linkService.incrementFollows(hash);
     ipService.saveUniqueIpForLink(link, request);
+    webSocketService.sendMessageToUser(link);
     return ResponseEntity
       .status(HttpStatus.SEE_OTHER)
       .header(HttpHeaders.LOCATION, link.getOriginUrl())
@@ -63,6 +70,7 @@ public class MainController {
 
   @DeleteMapping("/links")
   public ApiResponse removeLink(@RequestParam("hash") String hash){
+    ipService.deleteIpByHash(hash);
     linkService.deleteLink(hash);
     return apiResponseFactory.success();
   }

@@ -1,8 +1,8 @@
 <template>
   <div class="link-list-container">
-    <div v-if="user">
+    <div v-if="email">
       <div style="font-size: 25px; font-family: 'Raleway', sans-serif; margin: 20px auto">
-        Hello, {{ user }}!
+        Hello, {{ firstName }}!
       </div>
       <br>
       <link-form></link-form>
@@ -42,6 +42,7 @@
   import {mapGetters, mapActions} from 'vuex'
   import LinkItem from "./LinkItem";
   import LinkForm from "./LinkForm";
+  import {connect} from "../websocket";
 
   export default {
     name: "LinkList",
@@ -55,13 +56,14 @@
       }
     },
     computed:{
-      ...mapGetters(['user', 'links'])
+      ...mapGetters(['email', 'firstName', 'links'])
     },
     methods: {
       ...mapActions(['getLinksFromApi'])
     },
     created() {
       this.getLinksFromApi();
+      connect(this.email);
     }
   }
 </script>

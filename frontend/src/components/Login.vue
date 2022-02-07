@@ -45,7 +45,8 @@ export default {
           password: this.password
         })
         localStorage.setItem('token', resp.data.token)
-        await this.$store.dispatch('user', resp.data.email)
+        await this.$store.dispatch('email', resp.data.email)
+        await this.$store.dispatch('firstName', resp.data.firstName)
         await this.$router.push('/links')
       } catch (e){
         this.email = ''

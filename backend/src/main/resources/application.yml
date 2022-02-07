@@ -8,7 +8,14 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yml
     default-schema: public
 server:
-  port: 8099
+  port: 443
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/websock.p12
+    key-store-password: 123654
+    key-alias: cert_2
+    key-password: 123654
 jwt:
   secret: mykey
 hostname: localhost

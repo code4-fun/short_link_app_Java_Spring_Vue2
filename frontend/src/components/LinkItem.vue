@@ -24,7 +24,6 @@
     },
     methods: {
       async deleteLink(hash){
-        console.log("delete " + hash);
         await axios.delete('/links', {
           params: {
             hash: hash

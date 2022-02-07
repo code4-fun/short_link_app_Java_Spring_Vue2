@@ -77,7 +77,7 @@ public class LinkService {
   }
 
   /**
-   * Deletes the Link entity with the given hash.
+   * Removes the Link entity with the given hash.
    * @param hash hash
    */
   public void deleteLink(String hash){
@@ -97,7 +97,6 @@ public class LinkService {
     link.incrementFollows();
     return linkRepository.save(link);
   }
-
 
   /**
    * Generates random hash consisting of 8 chars[a-z,0-9] and saves the Link

@@ -29,7 +29,7 @@ public class Link {
 
   public void incrementFollows(){
     if(this.follows == null){
-      this.follows = 0L;
+      this.follows = 1L;
     } else {
       this.follows++;
     }
