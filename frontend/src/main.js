@@ -6,7 +6,7 @@ import store from "@/store/index"
 import './assets/styles/styles.scss'
 
 Vue.config.productionTip = false
-axios.defaults.baseURL = 'https://localhost:443'
+axios.defaults.baseURL = 'https://localhost:8443'
 
 new Vue({
   router,

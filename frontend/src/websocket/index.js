@@ -5,7 +5,7 @@ import store from "@/store/index"
 let stompClient = null
 
 export function connect(email) {
-  const socket = new SockJS('https://localhost:443/web-sock')
+  const socket = new SockJS('https://localhost:8443/web-sock')
   stompClient = Stomp.over(socket)
   stompClient.connect({user: email}, () => {
     stompClient.subscribe('/user/queue/followed-link', (message) => {
