@@ -80,7 +80,7 @@
 
 Перед запуском приложения необходимо создать базу данных **Postgres** с именем **shlink**, пользователем **postgres** и паролем **postgres**.
 
-#### Запуск backend
+### Запуск backend
 - Установить самоподписанный сертификат, расположенный в директории /resources/keystore
   
   В Windows, открыть двойным щелчком мыши файл *websock-local.crt* и установить сертификат.
@@ -93,7 +93,7 @@
   sudo update-ca-certificates
   ```
 
-  Для работы приложения в Chrome под Linux нужно снять флаг *Allow invalid certificates for resources loaded from localhost*, перейдя в браузере по адресу: `chrome://flags/#allow-insecure-localhost` 
+  Для работы приложения в Chrome под Linux нужно установить флаг *Allow invalid certificates for resources loaded from localhost*, перейдя в браузере по адресу: `chrome://flags/#allow-insecure-localhost` 
    
 - Клонировать проект
 
@@ -107,7 +107,7 @@
   
   `mvnw spring-boot:run` (для Windows)
 
-#### Запуск frontend
+### Запуск frontend
 
 - В новом окне терминала перейти в директорию *frontend* и  выполнить команды
 
