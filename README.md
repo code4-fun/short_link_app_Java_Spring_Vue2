@@ -81,7 +81,20 @@
 Перед запуском приложения необходимо создать базу данных **Postgres** с именем **shlink**, пользователем **postgres** и паролем **postgres**.
 
 #### Запуск backend
+- Установить самоподписанный сертификат, расположенный в директории /resources/keystore
+  
+  В Windows, открыть двойным щелчком мыши файл *websock-local.crt* и установить сертификат.
+  
+  В Linux, находясь в директории keystore, выполнить команды:
+  
+  ```
+  sudo mkdir /usr/local/share/ca-certificates/extra
+  sudo cp websock-local.crt /usr/local/share/ca-certificates/extra/websock-local.crt
+  sudo update-ca-certificates
+  ```
 
+  Для работы приложения в Chrome под Linux нужно снять флаг *Allow invalid certificates for resources loaded from localhost*, перейдя в браузере по адресу: `chrome://flags/#allow-insecure-localhost` 
+   
 - Клонировать проект
 
   `git clone https://github.com/ignal1/shlink.git`
@@ -103,10 +116,18 @@
   npm run serve
   ```
 
-  После этого приложение будет доступно на *loclhost:8080*.
+  После этого приложение будет доступно на *https://127.0.0.1:8081*.
   
 Для завершения процессов, в каждом окне терминала
 
 - нажать `Ctrl + Z` (для Linux)
    
 -  нажать `Ctrl + C`, после чего ввести в терминале `y` и нажать `Enter` (для Windows)
+
+По окончании работы с приложением в Chrome под Windows нужно удалить 
+настройки *HSTS* для *localhost*, чтобы  в дальнейшем можно было 
+работать с незащищенным *localhost* в Chrome.
+Для этого можно открыть панель разработчика (F12), щелкнуть правой 
+кнопком мыши на кнопке *Обновление страницы* и в меню выбрать 
+*Очистка кеша и жесткая перезагрузка*.
+
